@@ -4,18 +4,18 @@
 [![dependencies Status](https://david-dm.org/matejsvajger/reactive-js/status.svg)](https://david-dm.org/matejsvajger/reactive-js)
 
 ## Simple lightweight reactive object in vanilla js
+Useful when you need to quickly drop in some simple reactivity.
+
 ### Installation
-__Yarn__
+__Yarn__ || __NPM__
 ```sh
-$ yarn add reactive-js
+$ yarn add @matejsvajger/reactive-js
+$ npm i @matejsvajger/reactive-js --save
 ```
-__NPM:__
-```sh
-$ npm i reactive-js --save
-```
+
 __CDN__
 ```html
-<script src="https://unpkg.com/reactive-js@1.0.0/dist/reactive.umd.js"></script>
+<script src="https://unpkg.com/reactive-js@1.0.2/dist/reactive.umd.js"></script>
 ```
 
 ### Usage
