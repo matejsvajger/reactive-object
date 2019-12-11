@@ -1,6 +1,6 @@
 {
-  "name": "reactive-js",
-  "version": "1.0.1",
+  "name": "@matejsvajger/reactive-js",
+  "version": "1.0.2",
   "description": "Lightweight vanilla js reactive object",
   "author": "Matej Svajger <hello@matejsvajger.com",
   "main": "dist/reactive.esm.js",
