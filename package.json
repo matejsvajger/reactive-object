@@ -1,0 +1,24 @@
+{
+  "name": "reactive",
+  "version": "1.0.0",
+  "description": "Lightweight vanilla js reactive object",
+  "author": "Matej Svajger <hello@matejsvajger.com",
+  "main": "dist/reactive.esm.js",
+  "scripts": {
+    "build": "rollup -c",
+    "watch": "rollup -c -w"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:matejsvajger/reactive-js.git"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/core": "7.7.5",
+    "@babel/preset-env": "7.7.6",
+    "rimraf": "3.0.0",
+    "rollup": "1.27.10",
+    "rollup-plugin-babel": "4.3.3",
+    "rollup-plugin-terser": "5.1.3"
+  }
+}
