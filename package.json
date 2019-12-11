@@ -1,6 +1,6 @@
 {
-  "name": "@matejsvajger/reactive-js",
-  "version": "1.0.2",
+  "name": "@matejsvajger/reactive-object",
+  "version": "1.0.3",
   "description": "Lightweight vanilla js reactive object",
   "author": "Matej Svajger <hello@matejsvajger.com",
   "main": "dist/reactive.esm.js",
@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:matejsvajger/reactive-js.git"
+    "url": "git@github.com:matejsvajger/reactive-object.git"
   },
   "license": "MIT",
   "devDependencies": {
