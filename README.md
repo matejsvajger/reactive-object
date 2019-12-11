@@ -15,7 +15,7 @@ $ npm i @matejsvajger/reactive-object --save
 
 __CDN__
 ```html
-<script src="https://unpkg.com/@matejsvajger/reactive-object@1.0.3/dist/reactive.umd.js"></script>
+<script src="https://unpkg.com/@matejsvajger/reactive-object@1.0.4/dist/reactive.umd.js"></script>
 ```
 
 ### Usage
