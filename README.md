@@ -1,7 +1,7 @@
-# reactive-js
-[![Latest Stable Version](https://img.shields.io/npm/v/reactive-js.svg)](https://www.npmjs.com/package/reactive-js)
-[![NPM Downloads](https://img.shields.io/npm/dm/reactive-js.svg)](https://www.npmjs.com/package/reactive-js)
-[![dependencies Status](https://david-dm.org/matejsvajger/reactive-js/status.svg)](https://david-dm.org/matejsvajger/reactive-js)
+# reactive-object
+[![Latest Stable Version](https://img.shields.io/npm/v/@matejsvajger/reactive-object.svg)](https://www.npmjs.com/package/@matejsvajger/reactive-object)
+[![NPM Downloads](https://img.shields.io/npm/dm/@matejsvajger/reactive-object.svg)](https://www.npmjs.com/package/@matejsvajger/reactive-object)
+[![dependencies Status](https://david-dm.org/matejsvajger/@matejsvajger/reactive-object/status.svg)](https://david-dm.org/matejsvajger/@matejsvajger/reactive-object)
 
 ## Simple lightweight reactive object in vanilla js
 Useful when you need to quickly drop in some simple reactivity.
@@ -9,18 +9,18 @@ Useful when you need to quickly drop in some simple reactivity.
 ### Installation
 __Yarn__ || __NPM__
 ```sh
-$ yarn add @matejsvajger/reactive-js
-$ npm i @matejsvajger/reactive-js --save
+$ yarn add @matejsvajger/reactive-object
+$ npm i @matejsvajger/reactive-object --save
 ```
 
 __CDN__
 ```html
-<script src="https://unpkg.com/reactive-js@1.0.2/dist/reactive.umd.js"></script>
+<script src="https://unpkg.com/@matejsvajger/reactive-object@1.0.3/dist/reactive.umd.js"></script>
 ```
 
 ### Usage
 ```js
-import Reactive from 'reactive-js'
+import Reactive from '@matejsvajger/reactive-object'
 
 const toMonetaryString = num => `${num.toFixed(2).replace('.', ',')} €`
 const updateElementById = id => html => document.getElementById(id).innerHTML = html
