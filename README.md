@@ -50,6 +50,10 @@ product.observe({
 // or add single
 product.observe('qty', updateElementById('qty'))
 
+// or register a new prop and set it
+product.observe('tax', updateElementById('tax'))
+product.format('tax', tax => `${tax}%`)
+product.tax = 20
 
 console.log(product.price) // "15,00 €"
 product.price = 20;

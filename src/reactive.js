@@ -1,13 +1,20 @@
 const Reactive = (function() {
+  let data = new WeakMap()
   let listeners = new WeakMap()
   let formatters = new WeakMap()
 
   const isFunction = v => typeof v === 'function'
   const addObserver = (prop, cb, o) => {
-    let instanceListeners = listeners.get(o) || {};
+    let instanceData = data.get(o)
+    if (!instanceData.hasOwnProperty(prop)) {
+      setupProp(prop, o)
+    }
+
+    let instanceListeners = listeners.get(o) || {}
     if (!instanceListeners.hasOwnProperty(prop)) {
       instanceListeners[prop] = []
     }
+
     instanceListeners[prop].push(cb)
     listeners.set(o, instanceListeners)
     cb(o[prop])
@@ -19,7 +26,7 @@ const Reactive = (function() {
     notifyPropListeners(prop, o)
   }
   const notifyPropListeners = (prop, o) => {
-    let instanceListeners = listeners.get(o) || {};
+    let instanceListeners = listeners.get(o) || {}
     if (instanceListeners.hasOwnProperty(prop)) {
       for (let i in instanceListeners[prop]) {
         instanceListeners[prop][i](o[prop])
@@ -40,31 +47,40 @@ const Reactive = (function() {
     }
     return resolved
   }
+  const setupProp = (prop, o) => {
+    let instanceData = data.get(o)
+    Object.defineProperty(o, prop, {
+      get: function() {
+        let value = isFunction(instanceData[prop])
+          ? instanceData[prop](resolveComputed(instanceData))
+          : instanceData[prop]
+
+        let instanceFormatters = formatters.get(o)
+        return instanceFormatters && instanceFormatters.hasOwnProperty(prop)
+          ? instanceFormatters[prop](value)
+          : value
+      },
+      set: function(v) {
+        if (isFunction(instanceData[prop])) {
+          return
+        }
+
+        instanceData[prop] = v
+        data.set(o, instanceData)
+        notifyPropListeners(prop, o)
+        notifyComputedProps(instanceData, o)
+      }
+    })
+  }
 
   class Reactive {
-    constructor(data) {
-      for (let key in data) {
-        Object.defineProperty(this, key, {
-          get: function() {
-            let value = isFunction(data[key])
-              ? data[key](resolveComputed(data))
-              : data[key]
+    constructor(obj) {
+      data.set(this, obj || {})
 
-            let instanceFormatters = formatters.get(this)
-            return instanceFormatters && instanceFormatters.hasOwnProperty(key)
-              ? instanceFormatters[key](value)
-              : value
-          },
-          set: function(v) {
-            if (isFunction(data[key])) {
-              return
-            }
-
-            data[key] = v
-            notifyPropListeners(key, this)
-            notifyComputedProps(data, this)
-          }
-        })
+      if (typeof obj === 'object') {
+        for (let key in obj) {
+          setupProp(key, this)
+        }
       }
     }
 
