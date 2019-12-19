@@ -1,13 +1,27 @@
-const Reactive = (function() {
-  let listeners = new WeakMap()
-  let formatters = new WeakMap()
+const Reactive = (() => {
+  const data = new WeakMap()
+  const listeners = new WeakMap()
+  const formatters = new WeakMap()
 
+  const isObject = v => typeof v === 'object'
+  const isString = v => typeof v === 'string'
   const isFunction = v => typeof v === 'function'
+  const forEach = (o, cb) => {
+    for (let key in o) {
+      cb(key, o[key])
+    }
+  }
   const addObserver = (prop, cb, o) => {
-    let instanceListeners = listeners.get(o) || {};
+    let instanceData = data.get(o)
+    if (!instanceData.hasOwnProperty(prop)) {
+      setupProp(prop, o)
+    }
+
+    let instanceListeners = listeners.get(o) || {}
     if (!instanceListeners.hasOwnProperty(prop)) {
       instanceListeners[prop] = []
     }
+
     instanceListeners[prop].push(cb)
     listeners.set(o, instanceListeners)
     cb(o[prop])
@@ -19,7 +33,7 @@ const Reactive = (function() {
     notifyPropListeners(prop, o)
   }
   const notifyPropListeners = (prop, o) => {
-    let instanceListeners = listeners.get(o) || {};
+    let instanceListeners = listeners.get(o) || {}
     if (instanceListeners.hasOwnProperty(prop)) {
       for (let i in instanceListeners[prop]) {
         instanceListeners[prop][i](o[prop])
@@ -33,59 +47,60 @@ const Reactive = (function() {
       }
     }
   }
-  const resolveComputed = data => {
-    let resolved = {}
-    for (let key in data) {
-      resolved[key] = isFunction(data[key]) ? data[key](data) : data[key]
+  const resolveComputed = props => {
+    let resolved = { ...props }
+    for (let key in props) {
+      resolved[key] = isFunction(props[key]) ? props[key](resolved) : props[key]
     }
     return resolved
   }
+  const setupProp = (prop, o) => {
+    Object.defineProperty(o, prop, {
+      enumerable: true,
+      get() {
+        let instanceData = data.get(this)
+        let resolved = resolveComputed(instanceData)
+        let value = isFunction(instanceData[prop])
+          ? instanceData[prop](resolved)
+          : instanceData[prop]
+
+        let instanceFormatters = formatters.get(this)
+        return instanceFormatters && instanceFormatters.hasOwnProperty(prop)
+          ? instanceFormatters[prop](value, resolved)
+          : value
+      },
+      set(v) {
+        let instanceData = data.get(this)
+        if (isFunction(instanceData[prop])) {
+          return
+        }
+
+        instanceData[prop] = v
+        data.set(this, instanceData)
+        notifyPropListeners(prop, this)
+        notifyComputedProps(instanceData, this)
+      }
+    })
+  }
 
   class Reactive {
-    constructor(data) {
-      for (let key in data) {
-        Object.defineProperty(this, key, {
-          get: function() {
-            let value = isFunction(data[key])
-              ? data[key](resolveComputed(data))
-              : data[key]
+    constructor(obj) {
+      data.set(this, obj || {})
 
-            let instanceFormatters = formatters.get(this)
-            return instanceFormatters && instanceFormatters.hasOwnProperty(key)
-              ? instanceFormatters[key](value)
-              : value
-          },
-          set: function(v) {
-            if (isFunction(data[key])) {
-              return
-            }
-
-            data[key] = v
-            notifyPropListeners(key, this)
-            notifyComputedProps(data, this)
-          }
-        })
-      }
+      isObject(obj) &&
+      forEach(obj, key => setupProp(key, this))
     }
 
     observe(prop, cb) {
-      if (typeof prop === 'string') {
-        addObserver(prop, cb, this)
-      } else {
-        for (let key in prop) {
-          addObserver(key, prop[key], this)
-        }
-      }
+      isString(prop)
+        ? addObserver(prop, cb, this)
+        : forEach(prop, (key, val) => addObserver(key, val, this))
     }
 
     format(prop, cb) {
-      if (typeof prop === 'string') {
-        addFormatter(prop, cb, this)
-      } else {
-        for (let key in prop) {
-          addFormatter(key, prop[key], this)
-        }
-      }
+      isString(prop)
+        ? addFormatter(prop, cb, this)
+        : forEach(prop, (key, val) => addFormatter(key, val, this))
     }
   }
 

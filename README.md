@@ -6,6 +6,8 @@
 ## Simple lightweight reactive object in vanilla js
 Useful when you need to quickly drop in some simple reactivity.
 
+[__DEMO__](https://codesandbox.io/s/simple-vanilla-js-reactive-observer-kdedz)
+
 ### Installation
 __Yarn__ || __NPM__
 ```sh
@@ -15,7 +17,7 @@ $ npm i @matejsvajger/reactive-object --save
 
 __CDN__
 ```html
-<script src="https://unpkg.com/@matejsvajger/reactive-object@1.0.5/dist/reactive.umd.js"></script>
+<script src="https://unpkg.com/@matejsvajger/reactive-object@1.1.0/dist/reactive.umd.js"></script>
 ```
 
 ### Usage
@@ -24,6 +26,9 @@ import Reactive from '@matejsvajger/reactive-object'
 
 const toMonetaryString = num => `${num.toFixed(2).replace('.', ',')} €`
 const updateElementById = id => html => document.getElementById(id).innerHTML = html
+const getTax = (price, tax) =>
+  toMonetaryString(price - (price * 100) / (100 + tax)) +
+  ` - <small>${tax}%</small>`
 
 const product = new Reactive({
   qty: 2,
@@ -50,8 +55,14 @@ product.observe({
 // or add single
 product.observe('qty', updateElementById('qty'))
 
+// or register a new prop and set it
+product.observe('tax', updateElementById('tax'))
+product.format('tax', (tax, { total }) => getTax(total, tax))
+product.tax = () => 21
 
+console.log(product.qty) // 2
 console.log(product.price) // "15,00 €"
+console.log(product.total) // "35,00 €"
 product.price = 20;
 console.log(product.price) // "20,00 €"
 console.log(product.total) // "45,00 €"
