@@ -40,27 +40,29 @@ const Reactive = (function() {
       }
     }
   }
-  const resolveComputed = data => {
-    let resolved = {}
-    for (let key in data) {
-      resolved[key] = isFunction(data[key]) ? data[key](data) : data[key]
+  const resolveComputed = props => {
+    let resolved = { ...props }
+    for (let key in props) {
+      resolved[key] = isFunction(props[key]) ? props[key](resolved) : props[key]
     }
     return resolved
   }
   const setupProp = (prop, o) => {
-    let instanceData = data.get(o)
     Object.defineProperty(o, prop, {
       get: function() {
+        let instanceData = data.get(o)
+        let resolved = resolveComputed(instanceData)
         let value = isFunction(instanceData[prop])
-          ? instanceData[prop](resolveComputed(instanceData))
+          ? instanceData[prop](resolved)
           : instanceData[prop]
 
         let instanceFormatters = formatters.get(o)
         return instanceFormatters && instanceFormatters.hasOwnProperty(prop)
-          ? instanceFormatters[prop](value)
+          ? instanceFormatters[prop](value, resolved)
           : value
       },
       set: function(v) {
+        let instanceData = data.get(o)
         if (isFunction(instanceData[prop])) {
           return
         }
