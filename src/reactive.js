@@ -1,9 +1,16 @@
-const Reactive = (function() {
-  let data = new WeakMap()
-  let listeners = new WeakMap()
-  let formatters = new WeakMap()
+const Reactive = (() => {
+  const data = new WeakMap()
+  const listeners = new WeakMap()
+  const formatters = new WeakMap()
 
+  const isObject = v => typeof v === 'object'
+  const isString = v => typeof v === 'string'
   const isFunction = v => typeof v === 'function'
+  const forEach = (o, cb) => {
+    for (let key in o) {
+      cb(key, o[key])
+    }
+  }
   const addObserver = (prop, cb, o) => {
     let instanceData = data.get(o)
     if (!instanceData.hasOwnProperty(prop)) {
@@ -49,28 +56,28 @@ const Reactive = (function() {
   }
   const setupProp = (prop, o) => {
     Object.defineProperty(o, prop, {
-      get: function() {
-        let instanceData = data.get(o)
+      get() {
+        let instanceData = data.get(this)
         let resolved = resolveComputed(instanceData)
         let value = isFunction(instanceData[prop])
           ? instanceData[prop](resolved)
           : instanceData[prop]
 
-        let instanceFormatters = formatters.get(o)
+        let instanceFormatters = formatters.get(this)
         return instanceFormatters && instanceFormatters.hasOwnProperty(prop)
           ? instanceFormatters[prop](value, resolved)
           : value
       },
-      set: function(v) {
-        let instanceData = data.get(o)
+      set(v) {
+        let instanceData = data.get(this)
         if (isFunction(instanceData[prop])) {
           return
         }
 
         instanceData[prop] = v
-        data.set(o, instanceData)
-        notifyPropListeners(prop, o)
-        notifyComputedProps(instanceData, o)
+        data.set(this, instanceData)
+        notifyPropListeners(prop, this)
+        notifyComputedProps(instanceData, this)
       }
     })
   }
@@ -79,31 +86,20 @@ const Reactive = (function() {
     constructor(obj) {
       data.set(this, obj || {})
 
-      if (typeof obj === 'object') {
-        for (let key in obj) {
-          setupProp(key, this)
-        }
-      }
+      isObject(obj) &&
+      forEach(obj, key => setupProp(key, this))
     }
 
     observe(prop, cb) {
-      if (typeof prop === 'string') {
-        addObserver(prop, cb, this)
-      } else {
-        for (let key in prop) {
-          addObserver(key, prop[key], this)
-        }
-      }
+      isString(prop)
+        ? addObserver(prop, cb, this)
+        : forEach(prop, (key, val) => addObserver(key, val, this))
     }
 
     format(prop, cb) {
-      if (typeof prop === 'string') {
-        addFormatter(prop, cb, this)
-      } else {
-        for (let key in prop) {
-          addFormatter(key, prop[key], this)
-        }
-      }
+      isString(prop)
+        ? addFormatter(prop, cb, this)
+        : forEach(prop, (key, val) => addFormatter(key, val, this))
     }
   }
 
