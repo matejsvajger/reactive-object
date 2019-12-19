@@ -7,5 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Added
 - Option to register a new property after initialization
+### Changed
+- Set defined props to be enumerable
 ### Fixed
 - Passing resolved values to nested computed props

@@ -56,6 +56,7 @@ const Reactive = (() => {
   }
   const setupProp = (prop, o) => {
     Object.defineProperty(o, prop, {
+      enumerable: true,
       get() {
         let instanceData = data.get(this)
         let resolved = resolveComputed(instanceData)
