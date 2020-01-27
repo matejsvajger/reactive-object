@@ -13,12 +13,12 @@ const Reactive = (() => {
   }
   const addObserver = (prop, cb, o) => {
     let instanceData = data.get(o)
-    if (!instanceData.hasOwnProperty(prop)) {
+    if (!Object.prototype.hasOwnProperty.call(instanceData, prop)) {
       setupProp(prop, o)
     }
 
     let instanceListeners = listeners.get(o) || {}
-    if (!instanceListeners.hasOwnProperty(prop)) {
+    if (!Object.prototype.hasOwnProperty.call(instanceListeners, prop)) {
       instanceListeners[prop] = []
     }
 
@@ -34,7 +34,7 @@ const Reactive = (() => {
   }
   const notifyPropListeners = (prop, o) => {
     let instanceListeners = listeners.get(o) || {}
-    if (instanceListeners.hasOwnProperty(prop)) {
+    if (Object.prototype.hasOwnProperty.call(instanceListeners, prop)) {
       for (let i in instanceListeners[prop]) {
         instanceListeners[prop][i](o[prop])
       }
@@ -65,7 +65,7 @@ const Reactive = (() => {
           : instanceData[prop]
 
         let instanceFormatters = formatters.get(this)
-        return instanceFormatters && instanceFormatters.hasOwnProperty(prop)
+        return instanceFormatters && Object.prototype.hasOwnProperty.call(instanceFormatters, prop)
           ? instanceFormatters[prop](value, resolved)
           : value
       },
