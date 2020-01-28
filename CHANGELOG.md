@@ -11,6 +11,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
   - Travis Build
   - Code Coverage reporting
 
+### Removed
+ - dist files from repo
+
 ## [1.1.0]
 ### Added
 - Option to register a new property after initialization
