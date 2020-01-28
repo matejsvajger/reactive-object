@@ -1,0 +1,16 @@
+language: node_js
+node_js:
+  - "stable"
+cache:
+  directories:
+  - node_modules
+script:
+  - npm run lint
+  - npm run build
+  - npm test
+deploy:
+  provider: npm
+  email: hello@matejsvajger.com
+  api_key: $NPM_TOKEN
+  on:
+    branch: master

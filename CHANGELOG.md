@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+  - Tests
+  - Linting
+  - Travis Build
+
+## [1.1.0]
+### Added
 - Option to register a new property after initialization
 - Passing resolved object to formatters
 ### Changed
