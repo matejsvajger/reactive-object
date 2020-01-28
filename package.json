@@ -1,6 +1,6 @@
 {
   "name": "@matejsvajger/reactive-object",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Lightweight vanilla js reactive object",
   "author": "Matej Svajger <hello@matejsvajger.com",
   "main": "dist/reactive.cjs.js",
