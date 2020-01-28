@@ -1,8 +1,11 @@
 # reactive-object
 [![Latest Stable Version](https://img.shields.io/npm/v/@matejsvajger/reactive-object.svg)](https://www.npmjs.com/package/@matejsvajger/reactive-object)
-[![NPM Downloads](https://img.shields.io/npm/dm/@matejsvajger/reactive-object.svg)](https://www.npmjs.com/package/@matejsvajger/reactive-object)
+![Codecov](https://img.shields.io/codecov/c/github/matejsvajger/reactive-object)
+![Build status](https://img.shields.io/travis/matejsvajger/reactive-object/master)
 [![dependencies Status](https://david-dm.org/matejsvajger/reactive-object/status.svg)](https://david-dm.org/matejsvajger/reactive-object)
-
+[![NPM Downloads](https://img.shields.io/npm/dm/@matejsvajger/reactive-object.svg)](https://www.npmjs.com/package/@matejsvajger/reactive-object)
+![npm bundle size](https://img.shields.io/bundlephobia/minzip/@matejsvajger/reactive-object)
+![NPM License](https://img.shields.io/npm/l/@matejsvajger/reactive-object)
 ## Simple lightweight reactive object in vanilla js
 Useful when you need to quickly drop in some simple reactivity.
 
@@ -17,7 +20,7 @@ $ npm i @matejsvajger/reactive-object --save
 
 __CDN__
 ```html
-<script src="https://unpkg.com/@matejsvajger/reactive-object@1.1.0/dist/reactive.umd.js"></script>
+<script src="https://unpkg.com/@matejsvajger/reactive-object@1.2.0/dist/reactive.umd.js"></script>
 ```
 
 ### Usage
