@@ -8,9 +8,13 @@ script:
   - npm run lint
   - npm run build
   - npm test
+after_success:
+  - codecov -token=$CODECOV_TOKEN
 deploy:
   provider: npm
   email: hello@matejsvajger.com
   api_key: $NPM_TOKEN
+  skip_cleanup: true
   on:
     branch: master
+    tags: true

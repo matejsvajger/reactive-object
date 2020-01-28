@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
   - Tests
   - Linting
   - Travis Build
+  - Code Coverage reporting
 
 ## [1.1.0]
 ### Added
