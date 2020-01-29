@@ -9,7 +9,9 @@ script:
   - npm run build
   - npm test
 after_success:
-  - codecov -token=$CODECOV_TOKEN
+  - codecov
+before_deploy:
+  - rm .* && rm *.config.js && rm -rf tests && rm -rf coverage
 deploy:
   edge: true
   provider: npm
