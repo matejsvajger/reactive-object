@@ -1,6 +1,6 @@
 # reactive-object
 [![Latest Stable Version](https://img.shields.io/npm/v/@matejsvajger/reactive-object.svg)](https://www.npmjs.com/package/@matejsvajger/reactive-object)
-![Codecov](https://img.shields.io/codecov/c/github/matejsvajger/reactive-object)
+[![Codecov](https://img.shields.io/codecov/c/github/matejsvajger/reactive-object)](https://codecov.io/gh/matejsvajger/reactive-object)
 ![Build status](https://img.shields.io/travis/matejsvajger/reactive-object/master)
 [![dependencies Status](https://david-dm.org/matejsvajger/reactive-object/status.svg)](https://david-dm.org/matejsvajger/reactive-object)
 [![NPM Downloads](https://img.shields.io/npm/dm/@matejsvajger/reactive-object.svg)](https://www.npmjs.com/package/@matejsvajger/reactive-object)
@@ -20,7 +20,7 @@ $ npm i @matejsvajger/reactive-object --save
 
 __CDN__
 ```html
-<script src="https://unpkg.com/@matejsvajger/reactive-object@1.2.2/dist/reactive.umd.js"></script>
+<script src="https://unpkg.com/@matejsvajger/reactive-object@1.2.3/dist/reactive.umd.js"></script>
 ```
 
 ### Usage

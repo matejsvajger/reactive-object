@@ -10,8 +10,6 @@ script:
   - npm test
 after_success:
   - codecov
-before_deploy:
-  - rm .* && rm *.config.js && rm -rf tests && rm -rf coverage
 deploy:
   edge: true
   provider: npm
